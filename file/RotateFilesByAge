@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * Removes oldest files that are given.
+ *
+ * @param array  $filepathList
+ * @param int $filesToKeep
+ * @return array $files
+ */
+
+function RotateFilesByAge(array $filepathList, int $filesToKeep = 30): array
+{
+
+    $filesList = SortFilesByDate($filepathList); // see SortByDate.php
+
+    $files = [];
+    for ($i = 0; count($filesList) > $filesToKeep; $i++) {
+        array_push($files, $filesList[$i]);
+        unlink($filesList[$i]);
+        unset($filesList[$i]);
+    }
+
+    return $files;
+}
